@@ -1,0 +1,14 @@
+<h1>All Movies</h1>
+
+{% for movie in movies %}
+    <div>
+        <h2>
+            <a href="/movie/{{ movie.id }}/">
+                {{ movie.title }}
+            </a>
+        </h2>
+        <p>{{ movie.genre }}</p>
+        <p>{{ movie.release_year }}</p>
+        <hr>
+    </div>
+{% endfor %}
