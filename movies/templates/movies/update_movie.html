@@ -1,0 +1,13 @@
+<h2>Update Movie</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="title" value="{{ movie.title }}"><br>
+    <textarea name="description">{{ movie.description }}</textarea><br>
+    <input name="genre" value="{{ movie.genre }}"><br>
+    <input name="image" value="{{ movie.image }}"><br>
+    <input name="release_year" value="{{ movie.release_year }}"><br>
+
+    <button type="submit">Update</button>
+</form>
