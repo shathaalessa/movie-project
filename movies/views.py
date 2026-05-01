@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib import messages
 from .models import Movie, Rating
 
 @login_required
@@ -96,9 +98,24 @@ def user_login(request):
                 "error": "Invalid username or password"
             })
 
-    return render(request, "login.html")
+    return render(request, "movies/login.html")
 
 
 def user_logout(request):
     logout(request)
     return redirect("login")
+
+
+def user_register(request):
+    if request.method == "POST":
+        u = request.POST.get("username")
+        p = request.POST.get("password")
+        e = request.POST.get("email")
+
+        user = User.objects.create_user(username=u, password=p, email=e)
+        user.save()
+
+        messages.success(request, "Account created successfully!")
+        return redirect("movies:login") 
+
+    return render(request, "movies/register.html")
