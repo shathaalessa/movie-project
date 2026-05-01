@@ -1,14 +1,27 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
 <h1>All Movies</h1>
 
-{% for movie in movies %}
-    <div>
-        <h2>
-            <a href="/movie/{{ movie.id }}/">
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Genre</th>
+        <th>Year</th>
+    </tr>
+
+    {% for movie in movies %}
+    <tr>
+        <td>
+        <a href="{% url 'movie_detail' movie.id %}">
                 {{ movie.title }}
             </a>
-        </h2>
-        <p>{{ movie.genre }}</p>
-        <p>{{ movie.release_year }}</p>
-        <hr>
-    </div>
-{% endfor %}
+        </td>
+        <td>{{ movie.genre }}</td>
+        <td>{{ movie.release_year }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from .models import Movie, Rating
 
-
+@login_required
 def movie_list(request):
     movies = Movie.objects.all()
     return render(request, 'movies/movie_list.html', {
@@ -38,3 +39,25 @@ def movie_detail(request, movie_id):
         'average': average,
         'user_rating': user_rating
     })
+
+def user_login(request):
+    if request.method == "POST":
+        username = request.POST["username"]
+        password = request.POST["password"]
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect("movie_list")
+        else:
+            return render(request, "login.html", {
+                "error": "Invalid username or password"
+            })
+
+    return render(request, "login.html")
+
+
+def user_logout(request):
+    logout(request)
+    return redirect("login")
