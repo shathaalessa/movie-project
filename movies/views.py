@@ -39,6 +39,47 @@ def movie_detail(request, movie_id):
         'average': average,
         'user_rating': user_rating
     })
+@login_required
+
+def add_movie(request):
+    if request.method == "POST":
+        Movie.objects.create(
+            title=request.POST["title"],
+            description=request.POST["description"],
+            genre=request.POST["genre"],
+            image=request.POST["image"],
+            release_year=request.POST["release_year"]
+        )
+        return redirect("movie_list")
+
+    return render(request, "movies/add_movie.html")
+
+
+
+@login_required
+
+def update_movie(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    if request.method == "POST":
+        movie.title = request.POST["title"]
+        movie.description = request.POST["description"]
+        movie.genre = request.POST["genre"]
+        movie.image = request.POST["image"]
+        movie.release_year = request.POST["release_year"]
+        movie.save()
+
+        return redirect("movie_detail", movie_id=movie.id)
+
+    return render(request, "movies/update_movie.html", {"movie": movie})
+
+
+@login_required
+def delete_movie(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+    movie.delete()
+    return redirect("movie_list")
+
 
 def user_login(request):
     if request.method == "POST":

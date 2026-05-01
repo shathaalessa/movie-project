@@ -7,8 +7,8 @@
 <p>Genre: {{ movie.genre }}</p>
 <p>Year: {{ movie.release_year }}</p>
 <hr>
-<a href="{% url 'update_movie' movie.id %}">✏️Edit</a>
-<a href="{% url 'delete_movie' movie.id %}">🗑️Delete</a>
+<a href="{% url 'movies:update_movie' movie.id %}">Edit</a>
+<a href="{% url 'movies:delete_movie' movie.id %}">Delete</a>
 <hr>
 <h3>Average Rating: {{ average|floatformat:1 }} ⭐</h3>
 

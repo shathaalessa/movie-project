@@ -2,9 +2,9 @@
 
 {% block body %}
 
-<h1>All Movies</h1>
+<h1 class="mb-4">All Movies</h1>
 
-<table border="1">
+<table class="table table-striped">
     <tr>
         <th>Title</th>
         <th>Genre</th>
@@ -14,7 +14,7 @@
     {% for movie in movies %}
     <tr>
         <td>
-        <a href="{% url 'movie_detail' movie.id %}">
+            <a href="{% url 'movies:movie_detail' movie.id %}">
                 {{ movie.title }}
             </a>
         </td>
