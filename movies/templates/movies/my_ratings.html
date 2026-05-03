@@ -1,0 +1,32 @@
+{% extends "movies/layout.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">My Ratings</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Movie</th>
+            <th>Your Rating</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in ratings %}
+        <tr>
+            <td>
+                <a href="{% url 'movies:movie_detail' r.movie.id %}">
+                    {{ r.movie.title }}
+                </a>
+            </td>
+            <td>{{ r.score }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No ratings yet</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
