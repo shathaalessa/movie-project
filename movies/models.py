@@ -22,14 +22,12 @@ class Rating(models.Model):
         (5, "5"),
     ]
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings")
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name="ratings")
     score = models.IntegerField(choices=RATING_CHOICES)
 
-    def _str_(self):
+    def __str__(self):
         return f"{self.user.username} rated {self.movie.title} - {self.score}"
-# ADD MOVIE
-from django.contrib.auth.decorators import login_required
 
-
-
+    class Meta:
+        unique_together = ('user', 'movie')
