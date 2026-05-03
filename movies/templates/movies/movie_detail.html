@@ -10,7 +10,7 @@
 <p><strong>Year:</strong> {{ movie.release_year }}</p>
 <p>{{ movie.description }}</p>
 
-<h4>⭐ Average Rating: {{ average }}</h4>
+<h4>⭐ Average Rating: {{ average|floatformat:1 }}</h4>
 
 <form method="POST">
     {% csrf_token %}
