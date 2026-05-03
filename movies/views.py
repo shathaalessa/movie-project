@@ -20,17 +20,18 @@ def movie_detail(request, movie_id):
     if request.method == "POST":
         score = request.POST.get("score")
         if score:
+            score = int(score)
             Rating.objects.update_or_create(
                 user=request.user,
                 movie=movie,
                 defaults={'score': score}
             )
-            return redirect('movie_detail', movie_id=movie.id)
+            return redirect('movies:movie_detail', movie_id=movie.id)
 
     ratings = Rating.objects.filter(movie=movie)
 
     if ratings.exists():
-        average = sum([r.score for r in ratings]) / ratings.count()
+        average = sum(r.score for r in ratings) / ratings.count()
     else:
         average = 0
 
@@ -41,8 +42,9 @@ def movie_detail(request, movie_id):
         'average': average,
         'user_rating': user_rating
     })
-@login_required
 
+
+@login_required
 def add_movie(request):
     if request.method == "POST":
         Movie.objects.create(
@@ -50,16 +52,14 @@ def add_movie(request):
             description=request.POST["description"],
             genre=request.POST["genre"],
             image=request.POST["image"],
-            release_year=request.POST["release_year"]
+            release_year=int(request.POST["release_year"])
         )
-        return redirect("movie_list")
+        return redirect("movies:movie_list")
 
     return render(request, "movies/add_movie.html")
 
 
-
 @login_required
-
 def update_movie(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
 
@@ -68,10 +68,10 @@ def update_movie(request, movie_id):
         movie.description = request.POST["description"]
         movie.genre = request.POST["genre"]
         movie.image = request.POST["image"]
-        movie.release_year = request.POST["release_year"]
+        movie.release_year = int(request.POST["release_year"])
         movie.save()
 
-        return redirect("movie_detail", movie_id=movie.id)
+        return redirect("movies:movie_detail", movie_id=movie.id)
 
     return render(request, "movies/update_movie.html", {"movie": movie})
 
@@ -80,7 +80,7 @@ def update_movie(request, movie_id):
 def delete_movie(request, movie_id):
     movie = get_object_or_404(Movie, id=movie_id)
     movie.delete()
-    return redirect("movie_list")
+    return redirect("movies:movie_list")
 
 
 def user_login(request):
@@ -92,9 +92,9 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            return redirect("movie_list")
+            return redirect("movies:movie_list")
         else:
-            return render(request, "login.html", {
+            return render(request, "movies/login.html", {
                 "error": "Invalid username or password"
             })
 
@@ -103,7 +103,7 @@ def user_login(request):
 
 def user_logout(request):
     logout(request)
-    return redirect("login")
+    return redirect("movies:login")
 
 
 def user_register(request):
@@ -116,6 +116,6 @@ def user_register(request):
         user.save()
 
         messages.success(request, "Account created successfully!")
-        return redirect("movies:login") 
+        return redirect("movies:login")
 
     return render(request, "movies/register.html")
