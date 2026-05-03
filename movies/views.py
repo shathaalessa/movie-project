@@ -119,3 +119,9 @@ def user_register(request):
         return redirect("movies:login")
 
     return render(request, "movies/register.html")
+@login_required
+def my_ratings(request):
+    ratings = Rating.objects.filter(user=request.user)
+    return render(request, "movies/my_ratings.html", {
+        "ratings": ratings
+    })
