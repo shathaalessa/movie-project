@@ -1,19 +1,18 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{% extends "movies/layout.html" %}
 
-<div class="container mt-5">
-    <div class="card p-4 shadow">
-        <h2 class="text-center">Add Movie</h2>
+{% block content %}
 
-        <form method="POST">
-            {% csrf_token %}
+<h2>Add Movie</h2>
 
-            <input name="title" class="form-control mb-2" placeholder="Title">
-            <textarea name="description" class="form-control mb-2" placeholder="Description"></textarea>
-            <input name="genre" class="form-control mb-2" placeholder="Genre">
-            <input name="image" class="form-control mb-2" placeholder="Image URL">
-            <input name="release_year" class="form-control mb-2" placeholder="Year">
+<form method="POST">
+    {% csrf_token %}
+    <input class="form-control mb-2" name="title" placeholder="Title">
+    <input class="form-control mb-2" name="genre" placeholder="Genre">
+    <input class="form-control mb-2" name="release_year" placeholder="Year">
+    <input class="form-control mb-2" name="image" placeholder="Image URL">
+    <textarea class="form-control mb-2" name="description" placeholder="Description"></textarea>
 
-            <button class="btn btn-primary w-100">Add Movie</button>
-        </form>
-    </div>
-</div>
+    <button class="btn btn-success">Add</button>
+</form>
+
+{% endblock %}
